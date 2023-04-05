@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,5 @@ Route::group(['middleware' => 'auth'],function () {
     Route::post('/reserve',[ReservationController::class,'reserve']);
     Route::post('/reserve/delete', [ReservationController::class, 'reserveDelete']);
     Route::post('/reserve/update',[ReservationController::class, 'reserveUpdate']);
+    Route::post('/review',[ReviewController::class,'review']);
 });

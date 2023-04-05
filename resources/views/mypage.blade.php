@@ -25,7 +25,8 @@
         font-weight: bold;
     }
 
-    .reservation-card{
+    .reservation-card,
+    .review-card{
         margin-top: 30px;
         padding: 30px;
         width: 450px;
@@ -178,6 +179,31 @@
     .like img{
         width: 100%;
     }
+
+
+
+
+    .input-range {
+        display: none;
+    }
+    .range-group {
+        position: relative;
+    }
+    .range-group > a {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
+    .range-group > a:before {
+        content: "\f3ae";
+        font-family: "Ionicons";
+        font-size: 20px;
+        color: #aaa;
+    }
+    .range-group > a.on:before {
+        content: "\f2fc";
+        color: #fc3;
+    }
 </style>
 
 <header class="header">
@@ -190,9 +216,7 @@
         <div class="reservations">
             <h3 class="reservation-title">予約状況</h3>
             @foreach ($reservations as $i => $reservation)
-            @if (strtotime(date('Y-m-d H:i')) >= strtotime('{{$reservation->start_at}}'))
-                
-            
+            @if (strtotime(date('Y-m-d H:i')) < strtotime($reservation->start_at))
                 <div class="reservation-card">
                     <div class="reservation-card-head">
                         <div class="reservation-head-items">
@@ -252,7 +276,23 @@
                         <button class="update-btn">予約を更新する</button>
                     </form>
                 </div>
-                @endif
+            @php
+                $review = \App\Models\Review::where('shop_id', $reservation->shop->id)->first();
+            @endphp
+            @elseif (strtotime(date('Y-m-d H:i')) > strtotime($reservation->start_at))
+                <div class="review-card">
+                    <form action="/review" method="POST">
+                        <input type="hidden" name="user_id" value="{{$user->id}}">
+                        <input type="hidden" name="shop_id" value="{{$reservation->shop->id}}">
+                        <input type="range" min="1" max="5" name="stars" class="input-range">
+                        @error('stars')
+                            <p class="error-message">{{$message}}</p>
+                        @enderror
+                        <textarea name="comment" class="textarea-comment"></textarea>
+                        <button>レビューを送信する</button>
+                    </form>
+                </div>
+            @endif
             @endforeach
         </div>
         <div class="likes">
@@ -262,26 +302,23 @@
                 @foreach ($likes as $like)
                 <div class="shop-card">
                     <div class="shop-img">
-                    <img src="{{$like->shop->image_url}}" alt="ショップイメージ">
+                        <img src="{{$like->shop->image_url}}" alt="ショップイメージ">
                     </div>
                     <div class="shop-detail">
-                    <h2 class="shop-name">{{$like->shop->name}}</h2>
-                    <p class="shop-info">#{{$like->shop->area->name}} #{{$like->shop->genre->name}}</p>
-                    <div class="shop-form">
-                        <form action="/detail/{{$like->shop->id}}" method="GET" class="shop-detail-btn">
-                        <button>詳しくみる</button>
-                        </form>
-                        {{-- @php
-                            $like = \App\Models\Like::where('user_id', Auth::id())->where('shop_id', $like->shop->id)->first();
-                        @endphp --}}
-                            <form action="/favorite/delete" method="POST">
-                            @csrf
-                            <input type="hidden" name="shop_id" value="{{$like->shop->id}}">
-                            <button class="like">
-                                <img src="{{asset('images/like.png')}}" alt="like">
-                            </button>
+                        <h2 class="shop-name">{{$like->shop->name}}</h2>
+                        <p class="shop-info">#{{$like->shop->area->name}} #{{$like->shop->genre->name}}</p>
+                        <div class="shop-form">
+                            <form action="/detail/{{$like->shop->id}}" method="GET" class="shop-detail-btn">
+                                <button>詳しくみる</button>
                             </form>
-                    </div>
+                            <form action="/favorite/delete" method="POST">
+                                @csrf
+                                <input type="hidden" name="shop_id" value="{{$like->shop->id}}">
+                                <button class="like">
+                                    <img src="{{asset('images/like.png')}}" alt="like">
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 @endforeach

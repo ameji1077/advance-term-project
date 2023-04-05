@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
-    // public function showReservedPage()
-    // {
-    //     $user = Auth::user();
-    //     return view('done', ['user' => $user]);
-    // }
-
     public function reserve(ReservationRequest $request)
     {
         $user = Auth::user();
@@ -42,10 +36,6 @@ class ReservationController extends Controller
         $time = $request->time;
         $start_at = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
         $num_of_users = $request->num_of_users;
-        // $reservation = new Reservation;
-        // $reservation->start_at = $start_at;
-        // $reservation->num_of_users = $request->num_of_users;
-        // unset($reservation['_token']);
         Reservation::where('id',$request->id)->update(['start_at' => $start_at,'num_of_users' => $num_of_users]);
         return redirect('/mypage');
     }
