@@ -28,11 +28,21 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            // 認証に成功した場合の処理
+            return redirect()->intended('mypage');
+        } else {
+            // 認証に失敗した場合の処理
+            return redirect()->back()
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors(['email' => 'メールアドレスまたはパスワードが間違っています。']);
+        }
+        // $request->authenticate();
 
-        $request->session()->regenerate();
+        // $request->session()->regenerate();
 
-        return redirect('/mypage');
+        // return redirect('/mypage');
         /**->intended(RouteServiceProvider::HOME) */
     }
 

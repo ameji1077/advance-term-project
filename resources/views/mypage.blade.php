@@ -8,6 +8,7 @@
 
     .wrapper{
         display: flex;
+        flex-wrap: wrap;
         margin-top: 50px;
     }
 
@@ -28,8 +29,9 @@
     .reservation-card,
     .review-card{
         margin-top: 30px;
+        margin-bottom: 50px;
         padding: 30px;
-        width: 450px;
+        width: 80%;
         color: #fff;
         background: #315BFB;
         border-radius: 5px;
@@ -83,7 +85,7 @@
     }
 
     .reservation-card th{
-    width: 100px;
+    width: 80px;
     text-align: left;
     }
 
@@ -180,29 +182,71 @@
         width: 100%;
     }
 
+    .review-title{
+        font-size: 20px;
+    }
 
+    .label-review{
+        display: block;
+        margin-top: 10px;
+    }
 
+    .select-review{
+        width: 30%;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+    }
 
-    .input-range {
+    .rate-form {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+    .rate-form input[type=radio] {
         display: none;
     }
-    .range-group {
+
+    .rate-form label {
         position: relative;
-    }
-    .range-group > a {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-    }
-    .range-group > a:before {
-        content: "\f3ae";
-        font-family: "Ionicons";
+        padding: 0 5px;
+        color: #ccc;
+        cursor: pointer;
         font-size: 20px;
-        color: #aaa;
     }
-    .range-group > a.on:before {
-        content: "\f2fc";
-        color: #fc3;
+
+    .rate-form label:hover {
+        color: #ffff00;
+    }
+
+    .rate-form label:hover ~ label {
+        color: #ffff00;
+    }
+
+    .rate-form input[type=radio]:checked ~ label {
+        color: #ffff00;
+    }
+
+    .error-message{
+        color: #ff0000;
+    }
+
+    .textarea-comment{
+        display: block;
+        width: 80%;
+        height: 100px;
+        margin-top: 10px;
+    }
+
+    .review-button{
+        margin-top: 10px;
+        padding: 5px 10px;
+        background: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
     }
 </style>
 
@@ -276,24 +320,8 @@
                         <button class="update-btn">予約を更新する</button>
                     </form>
                 </div>
-            @php
-                $review = \App\Models\Review::where('shop_id', $reservation->shop->id)->first();
-            @endphp
-            @elseif (strtotime(date('Y-m-d H:i')) > strtotime($reservation->start_at))
-                <div class="review-card">
-                    <form action="/review" method="POST">
-                        <input type="hidden" name="user_id" value="{{$user->id}}">
-                        <input type="hidden" name="shop_id" value="{{$reservation->shop->id}}">
-                        <input type="range" min="1" max="5" name="stars" class="input-range">
-                        @error('stars')
-                            <p class="error-message">{{$message}}</p>
-                        @enderror
-                        <textarea name="comment" class="textarea-comment"></textarea>
-                        <button>レビューを送信する</button>
-                    </form>
-                </div>
-            @endif
-            @endforeach
+                @endif
+                @endforeach
         </div>
         <div class="likes">
             <h3 class="like-title">お気に入り店舗</h3>
@@ -327,6 +355,45 @@
                 <p class="no-like-shop">現在、お気に入りに登録している店舗がありません</p>
             @endif
         </div>
+    </div>
+    <div class="review-card">
+        <h4 class="review-title">レビューを投稿する</h4>
+        <form action="/review" method="POST">
+            @csrf
+            <label class="label-review">予約店舗情報：
+                <select name="reservation_id" id="selectShopId" class="select-review">
+                    @foreach ($reservations as $reservation)
+                        @if (strtotime(date('Y-m-d H:i')) >= strtotime($reservation->start_at))
+                            @php
+                                $review = \App\Models\Review::where('reservation_id', $reservation->id)->first();
+                            @endphp
+                            @if ($review == null)
+                                <option value="{{$reservation->id}}">{{$reservation->shop->name}}〜{{$reservation->start_at}}</option>
+                            @endif
+                        @endif
+                    @endforeach
+                </select>
+            </label>
+            <input type="hidden" name="user_id" value="{{$user->id}}">
+            <input type="hidden" name="shop_id" id="hiddenShopId" value="{{$reservation->shop->id}}">
+            <div class="rate-form">
+                <input id="star5" type="radio" name="stars" value="5">
+                <label for="star5">★</label>
+                <input id="star4" type="radio" name="stars" value="4">
+                <label for="star4">★</label>
+                <input id="star3" type="radio" name="stars" value="3">
+                <label for="star3">★</label>
+                <input id="star2" type="radio" name="stars" value="2">
+                <label for="star2">★</label>
+                <input id="star1" type="radio" name="stars" value="1">
+                <label for="star1">★</label>
+            </div>
+            @error('stars')
+                <p class="error-message">{{$message}}</p>
+            @enderror
+            <textarea name="comment" class="textarea-comment" placeholder="コメントをお願いします"></textarea>
+            <button class="review-button">レビューを送信する</button>
+        </form>
     </div>
     <script src="{{asset('/js/main.js')}}"></script>
 @endsection

@@ -20,7 +20,7 @@ class CreateReviewsTable extends Migration
             $table->integer('shop_id');
             $table->integer('stars');
             $table->text('comment')->nullable();
-            $table->timestamp('create_at')->useCurrent()->nullable();
+            $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });
     }
