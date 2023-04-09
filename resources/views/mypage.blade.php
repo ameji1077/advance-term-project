@@ -31,7 +31,7 @@
         margin-top: 30px;
         margin-bottom: 50px;
         padding: 30px;
-        width: 80%;
+        width: 70%;
         color: #fff;
         background: #315BFB;
         border-radius: 5px;
@@ -107,9 +107,7 @@
     }
 
     .update-btn{
-        position: absolute;
-        bottom: 5px;
-        right: 0;
+        margin-top: 10px;
         height: 30px;
         background: #fff;
         border: none;
@@ -131,7 +129,7 @@
         height: 300px;
         background: #ffffff;
         border-radius: 10px;
-        box-shadow: 2px 2px 2px #999;
+        box-shadow: 2px 2px 5px #999;
     }
 
     .shop-img img{
@@ -192,7 +190,7 @@
     }
 
     .select-review{
-        width: 30%;
+        width: 40%;
         height: 30px;
         border: none;
         border-radius: 5px;
@@ -247,6 +245,40 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+        .wrapper{
+            display: block;
+        }
+
+        .reservations,
+        .likes{
+            width: 100%;
+        }
+
+        .reservation-card{
+            width: 70%;
+        }
+
+        .reservation-card table{
+            width: 80%;
+        }
+
+        .shop-card{
+            width: 90%;
+            height: 90%;
+        }
+
+        .shop-name,
+        .shop-info,
+        .shop-form{
+            margin-top: 5%;
+        }
+
+        .review-card{
+            width: 80%;
+        }
     }
 </style>
 
@@ -375,7 +407,7 @@
                 </select>
             </label>
             <input type="hidden" name="user_id" value="{{$user->id}}">
-            <input type="hidden" name="shop_id" id="hiddenShopId" value="{{$reservation->shop->id}}">
+            <input type="hidden" name="shop_id" id="hiddenShopId" value="">
             <div class="rate-form">
                 <input id="star5" type="radio" name="stars" value="5">
                 <label for="star5">★</label>

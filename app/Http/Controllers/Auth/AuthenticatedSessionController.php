@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             // 認証に成功した場合の処理
-            return redirect()->intended('mypage');
+            return redirect('/mypage');  //->intended('mypage')
         } else {
             // 認証に失敗した場合の処理
             return redirect()->back()

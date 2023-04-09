@@ -37,21 +37,20 @@
   }
 
   .search-input{
-    width: 300px;
+    width: 80%;
     border: none;
   }
 
   .shop-card-wrapper{
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 20px;
+    justify-content: space-between;
     margin-bottom: 50px;
   }
 
   .shop-card{
     margin-top: 20px;
-    width: 290px;
+    width: 280px;
     height: 300px;
     background: #ffffff;
     border-radius: 10px;
@@ -116,6 +115,29 @@
 
   .redirect-login img{
     width: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    .header{
+      display: block;
+    }
+
+    .search-form{
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .shop-card{
+      margin: 10px auto;
+      width: 90%;
+      height: 90%;
+    }
+
+    .shop-name,
+    .shop-info,
+    .shop-form{
+      margin-top: 5%;
+    }
   }
 </style>
 

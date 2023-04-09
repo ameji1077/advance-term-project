@@ -18,7 +18,6 @@
     .done-title{
         margin-top: 80px;
         text-align: center;
-        height: 60px;
         line-height: 60px;
         font-size: 24px;
         font-weight: lighter;

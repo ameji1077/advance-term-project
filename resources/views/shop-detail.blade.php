@@ -6,7 +6,7 @@
   }
 
   .shop-detail-card{
-    width: 45%;
+    width: 40%;
   }
 
   .shop-name-box{
@@ -137,6 +137,25 @@
     border: none;
     border-radius: 0 0 5px 5px;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 768px) {
+    .shop-wrapper{
+      display: block;
+    }
+
+    .shop-detail-card{
+      width: 100%;
+    }
+
+    .reservation-form{
+      position: relative;
+      top: 20px;
+      left: 0;
+      padding: 30px;
+      width: 80%;
+      height: 45%;
+    }
   }
 </style>
 

@@ -194,10 +194,22 @@ body{
   margin: 0 100px;
   background: #eee;
 }
+
 .header{
   display: flex;
   align-items: center;
   height: 100px;
 
+}
+
+@media screen and (max-width: 768px) {
+  body{
+    margin: 0 5%;
+  }
+
+  .header{
+    display: block;
+    height: auto;
+  }
 }
 </style>

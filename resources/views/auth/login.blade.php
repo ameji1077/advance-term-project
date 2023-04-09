@@ -80,10 +80,24 @@
         border: none;
         border-radius: 5px;
     }
+
+    @media screen and (max-width: 768px) {
+        .form-content{
+            width: 90%;
+        }
+
+        .form-content table{
+            width: 90%;
+        }
+    }
 </style>
 
 <header class="header">
+    @isset($user)
+    @include('components.header-items-1')
+    @else
     @include('components.header-items-2')
+    @endisset
 </header>
 
 @section('content')

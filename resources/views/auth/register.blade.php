@@ -80,6 +80,16 @@
         border: none;
         border-radius: 5px;
     }
+
+    @media screen and (max-width: 768px) {
+        .form-content{
+            width: 100%;
+        }
+
+        .form-content table{
+            width: 90%;
+        }
+    }
 </style>
 
 <header class="header">
