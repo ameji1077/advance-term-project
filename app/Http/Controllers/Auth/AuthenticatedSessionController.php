@@ -83,10 +83,11 @@ class AuthenticatedSessionController extends Controller
                     'level' => 'ログインできる権限がありません',
                 ]);
             }
+        } else {
+            return redirect()->back()
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors(['email' => 'メールアドレスまたはパスワードが間違っています。']);
         };
-        return back()->withErrors([
-            'email' => 'メールアドレスまたはパスワードが間違っています',
-        ]);
     }
 
     public function destroyAdmin(Request $request)
@@ -120,10 +121,11 @@ class AuthenticatedSessionController extends Controller
                     'level' => 'ログインできる権限がありません',
                 ]);
             }
+        } else {
+            return redirect()->back()
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors(['email' => 'メールアドレスまたはパスワードが間違っています。']);
         };
-        return back()->withErrors([
-            'email' => 'メールアドレスまたはパスワードが間違っています',
-        ]);
     }
 
     public function destroyShopUser(Request $request)

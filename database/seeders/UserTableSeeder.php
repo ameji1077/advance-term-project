@@ -17,8 +17,8 @@ class UserTableSeeder extends Seeder
     {
         $param = [
             'name' => 'test-user',
-            'email' => 'testuser@example.com',
-            'password' => Hash::make('testuser'),
+            'email' => 'test.user@example.com',
+            'password' => Hash::make('test-user-001'),
         ];
         User::create($param);
     }
