@@ -54,3 +54,26 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 });
+
+Route::middleware('guest:admin')->group(function () {
+    Route::get('admin/login', [AuthenticatedSessionController::class, 'createAdmin'])->name('admin.login');
+
+    Route::post('admin/login', [AuthenticatedSessionController::class, 'storeAdmin']);
+
+});
+
+Route::group(['middleware' => 'auth:admin'], function () {
+    Route::post('admin/logout', [AuthenticatedSessionController::class, 'destroyAdmin']);
+});
+
+Route::middleware('guest:shop-user')->group(function () {
+    Route::get('shop-user/login', [AuthenticatedSessionController::class, 'createShopUser'])->name('shop-user.login');
+
+    Route::post('shop-user/login', [AuthenticatedSessionController::class, 'storeShopUser']);
+
+});
+
+Route::group(['middleware' => 'auth:shop-user'], function () {
+    Route::post('shop-user/logout', [AuthenticatedSessionController::class, 'destroyShopUser']);
+
+});

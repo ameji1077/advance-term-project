@@ -50,7 +50,7 @@ a{
   color: blue;
   background: #fff;
   font-size: 24px;
-  
+  cursor: pointer;
 }
 .header-content{
   display: flex;

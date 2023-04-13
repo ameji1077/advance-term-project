@@ -44,7 +44,8 @@
   .shop-card-wrapper{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 10px;
     margin-bottom: 50px;
   }
 

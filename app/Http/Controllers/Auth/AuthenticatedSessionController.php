@@ -38,12 +38,6 @@ class AuthenticatedSessionController extends Controller
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors(['email' => 'メールアドレスまたはパスワードが間違っています。']);
         }
-        // $request->authenticate();
-
-        // $request->session()->regenerate();
-
-        // return redirect('/mypage');
-        /**->intended(RouteServiceProvider::HOME) */
     }
 
     /**
@@ -61,5 +55,85 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function __construct()
+    {
+        $this->middleware('guest:admin')->except('destroyAdmin');
+        $this->middleware('guest:shop-user')->except('destroyShopUser');
+    }
+
+    public function createAdmin()
+    {
+        return view('auth.admin-login');
+    }
+
+    public function storeAdmin(LoginRequest $request)
+    {
+        $request->session()->regenerateToken();
+        $credentials = $request->only('email', 'password');
+        if (Auth::guard('admin')->attempt($credentials)) {
+            if ($request->user('admin')?->admin_level > 0) {
+                $request->session()->regenerate();
+                return redirect('/admin');
+            }else {
+                Auth::guard('admin')->logout();
+                $request->session()->regenerate();
+                return back()->withErrors([
+                    'level' => 'ログインできる権限がありません',
+                ]);
+            }
+        };
+        return back()->withErrors([
+            'email' => 'メールアドレスまたはパスワードが間違っています',
+        ]);
+    }
+
+    public function destroyAdmin(Request $request)
+    {
+        Auth::guard('admin')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/admin/login');
+    }
+
+    public function createShopUser()
+    {
+        return view('auth.shop-login');
+    }
+
+    public function storeShopUser(LoginRequest $request)
+    {
+        $request->session()->regenerateToken();
+        $credentials = $request->only('email', 'password');
+        if (Auth::guard('shop-user')->attempt($credentials)) {
+            if ($request->user('shop-user')?->shop_level > 0) {
+                $request->session()->regenerate();
+                return redirect('/shop-user');
+            } else {
+                Auth::guard('shop-user')->logout();
+                $request->session()->regenerate();
+                return back()->withErrors([
+                    'level' => 'ログインできる権限がありません',
+                ]);
+            }
+        };
+        return back()->withErrors([
+            'email' => 'メールアドレスまたはパスワードが間違っています',
+        ]);
+    }
+
+    public function destroyShopUser(Request $request)
+    {
+        Auth::guard('shop-user')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/shop-user/login');
     }
 }

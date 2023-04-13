@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ShopUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,14 +18,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 
@@ -41,4 +33,12 @@ Route::group(['middleware' => 'auth'],function () {
     Route::post('/reserve/delete', [ReservationController::class, 'reserveDelete']);
     Route::post('/reserve/update',[ReservationController::class, 'reserveUpdate']);
     Route::post('/review',[ReviewController::class,'review']);
+});
+
+Route::group(['middleware' => 'auth:admin'],function () {
+    Route::get('/admin',[AdminUserController::class,'index']);
+});
+
+Route::group(['middleware' => 'auth:shop-user'], function () {
+    Route::get('/shop-user', [ShopUserController::class, 'index']);
 });
