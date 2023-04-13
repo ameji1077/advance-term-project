@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'],function () {
 
 Route::group(['middleware' => 'auth:admin'],function () {
     Route::get('/admin',[AdminUserController::class,'index']);
+    Route::post('/admin/shop-user/create',[AdminUserController::class,'shopUserCreate']);
 });
 
 Route::group(['middleware' => 'auth:shop-user'], function () {
