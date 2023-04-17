@@ -13,7 +13,7 @@ class ShopRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,27 @@ class ShopRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required','string'],
+            'area_id' => ['required','integer'],
+            'genre_id' => ['required','integer'],
+            'description' => ['required','string'],
+            'image_url' => ['required'],  /** ,'mimes:jpeg,jpg,png' */
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => '店舗名を入力してください',
+            'name.string' => '文字列型で入力してください',
+            'area_id.required' => 'エリア名を入力してください',
+            'area_id.integer' => '整数値で入力してください', 
+            'genre_id.required' => 'ジャンル名を入力してください',
+            'genre_id.integer' => '整数値で入力してください',
+            'description.required' => '説明文を入力してください',
+            'description.string' => '文字列型で入力してください',
+            'image_url.required' => 'ファイルを選択してください',
+            // 'image_url.mimes' => '.jpeg,.jpg,.pngのファイルを選択してください',
         ];
     }
 }

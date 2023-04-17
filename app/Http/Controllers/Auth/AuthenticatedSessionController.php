@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             // 認証に成功した場合の処理
-            return redirect('/mypage');  //->intended('mypage')
+            return redirect('/');  //->intended('mypage')
         } else {
             // 認証に失敗した場合の処理
             return redirect()->back()
@@ -111,16 +111,8 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
         $credentials = $request->only('email', 'password');
         if (Auth::guard('shop-user')->attempt($credentials)) {
-            if ($request->user('shop-user')?->shop_level > 0) {
-                $request->session()->regenerate();
-                return redirect('/shop-user');
-            } else {
-                Auth::guard('shop-user')->logout();
-                $request->session()->regenerate();
-                return back()->withErrors([
-                    'level' => 'ログインできる権限がありません',
-                ]);
-            }
+            $request->session()->regenerate();
+            return redirect('/shop-user');
         } else {
             return redirect()->back()
                 ->withInput($request->only('email', 'remember'))

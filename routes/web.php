@@ -25,7 +25,7 @@ Route::get('/',[ShopController::class,'index'])->name('shop.index');
 Route::get('/detail/{shop_id}',[ShopController::class,'detail']);
 Route::get('/find',[ShopController::class,'search']);
 Route::get('/thanks', [UserController::class, 'thanks']);
-Route::group(['middleware' => 'auth'],function () {
+Route::group(['middleware' => 'verified'],function () {
     Route::get('/mypage',[UserController::class,'mypage']);
     Route::post('/favorite',[ShopController::class,'favorite']);
     Route::post('/favorite/delete', [ShopController::class, 'favoriteDelete']);
@@ -42,4 +42,6 @@ Route::group(['middleware' => 'auth:admin'],function () {
 
 Route::group(['middleware' => 'auth:shop-user'], function () {
     Route::get('/shop-user', [ShopUserController::class, 'index']);
+    Route::post('/shop-user/shop/create',[ShopUserController::class,'shopCreate']);
+    Route::post('/shop-user/shop/update',[ShopUserController::class,'shopUpdate']);
 });

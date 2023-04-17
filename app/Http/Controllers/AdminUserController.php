@@ -10,7 +10,8 @@ class AdminUserController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $shop_users = ShopUser::all();
+        return view('admin.index',['shop_users' => $shop_users]);
     }
 
     public function shopUserCreate(AdminUserRequest $request)

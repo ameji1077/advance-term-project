@@ -37,3 +37,4 @@ window.addEventListener('resize', () => {
   selectElement.addEventListener('change', () => {
     hiddenElement.value = selectElement.value;
   });
+

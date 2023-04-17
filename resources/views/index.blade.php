@@ -1,5 +1,9 @@
 @extends('layouts.default')
 <style>
+  html{
+    width: 100%;
+  }
+
   .header{
     display: flex;
     justify-content: space-between;

@@ -79,6 +79,7 @@
         background: #0000ff;
         border: none;
         border-radius: 5px;
+        cursor: pointer;
     }
 
     @media screen and (max-width: 768px) {

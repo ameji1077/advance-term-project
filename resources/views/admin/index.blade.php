@@ -17,6 +17,7 @@
     border: none;
     border-radius: 5px;
     box-shadow: 2px 2px 5px #999;
+    cursor: pointer;
   }
 
   .content{
@@ -25,12 +26,50 @@
     align-items: center;
   }
 
-  .form-content{
-    margin: 100px auto;
-    width: 500px;
+  .tab {
+  width: 600px;
+  margin: 100px auto;
+  }
+
+  .tab-menu {
+    display: flex;
+  }
+
+  .tab-menu__item {
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    list-style: none;
+    background: #fff;
+    width: 100px;
+    border-top: 1px solid #315BFB;
+    border-left: 1px solid #315BFB;
+    border-right: 1px solid #315BFB;
+  }
+
+  .tab-menu__item:first-child {
+    margin-left: 10px;
+  }
+
+  .tab-menu__item:not(:first-child) {
+    border-left: none;
+  }
+
+  .tab-menu__item.active {
+    background: #315BFB;
+    color: #fff;
+  }
+
+  .tab-content__item {
+    display: none;
+    width: 600px;
     background: #fff;
     border-radius: 5px;
     box-shadow: 2px 2px 5px #999;
+  }
+
+  .tab-content__item.show {
+    display: block;
   }
 
   .form-header{
@@ -46,6 +85,7 @@
 
   .shop-user-create-form{
     margin: 20px;
+    padding-bottom: 10px;
   }
 
   .shop-user-create-form table{
@@ -92,6 +132,34 @@
     border: none;
     border-radius: 5px;
     box-shadow: 2px 2px 5px #999;
+    cursor: pointer;
+  }
+
+  .shop-users-table{
+    margin: 20px;
+    padding-bottom: 10px;
+  }
+
+  .shop-users-table table{
+    text-align: left;
+    width: 100%;
+  }
+
+  .shop-users-table th:nth-of-type(1),
+  .shop-users-table td:nth-of-type(1){
+    width: 25%;
+    padding-right: 10px;
+  }
+
+  .shop-users-table th:nth-of-type(2),
+  .shop-users-table td:nth-of-type(2){
+    width: 45%;
+  }
+
+  .shop-users-table th:nth-of-type(3),
+  .shop-users-table td:nth-of-type(3){
+    width: 30%;
+    padding-left: 10px;
   }
 
   @media screen and (max-width: 768px) {
@@ -99,8 +167,30 @@
     .logout-button{
       margin-top: 20px;
     }
-    .form-content{
-      width: 90%;
+
+    .tab{
+      width: 100%;
+    }
+
+    .tab-content__item{
+      width: 100%;
+    }
+
+    .shop-users-table th:nth-of-type(1),
+    .shop-users-table td:nth-of-type(1){
+      width: 30%;
+    }
+
+    .shop-users-table th:nth-of-type(2),
+    .shop-users-table td:nth-of-type(2) div{
+      white-space: nowrap;
+      overflow: scroll;
+      width: 100px;
+    }
+
+    .shop-users-table th:nth-of-type(3),
+    .shop-users-table td:nth-of-type(3){
+      width: 50px;
     }
   }
 </style>
@@ -114,7 +204,12 @@
 </header>
 
 @section('content')
-  <div class="form-content">
+<div class="tab">
+  <ul class="tab-menu">
+    <li class="tab-menu__item active">作成</li>
+    <li class="tab-menu__item">一覧</li>
+  </ul>
+  <div class="tab-content__item show">
     <div class="form-header">
       <h2 class="form-title">
         店舗代表者を作成する
@@ -179,4 +274,46 @@
       <button class="form-button">作成する</button>
     </form>
   </div>
+  <div class="tab-content__item">
+    <div class="form-header">
+      <h2 class="form-title">
+        店舗代表者一覧
+      </h2>
+    </div>
+    <div class="shop-users-table">
+      <table>
+        <tr>
+          <th>店舗代表者名</th>
+          <th>メールアドレス</th>
+          <th>店舗レベル</th>
+        </tr>
+        @foreach ($shop_users as $shop_user)
+          <tr>
+            <td>{{$shop_user->name}}</td>
+            <td>
+              <div>
+                {{$shop_user->email}}
+              </div>
+            </td>
+            <td>{{$shop_user->shop_level}}</td>
+          </tr>
+        @endforeach
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+    const tabs = document.getElementsByClassName('tab-menu__item');
+for (let i = 0; i < tabs.length; i++) {
+  tabs[i].addEventListener('click', tabSwitch);
+}
+function tabSwitch() {
+  document.getElementsByClassName('active')[0].classList.remove('active');
+  this.classList.add('active');
+  document.getElementsByClassName('show')[0].classList.remove('show');
+  const arrayTabs = Array.prototype.slice.call(tabs);
+  const index = arrayTabs.indexOf(this);
+  document.getElementsByClassName('tab-content__item')[index].classList.add('show');
+};
+</script>
 @endsection

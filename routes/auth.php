@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -34,7 +35,7 @@ Route::middleware('guest')->group(function () {
                 ->name('password.update');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('verified')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
 
@@ -77,3 +78,13 @@ Route::group(['middleware' => 'auth:shop-user'], function () {
     Route::post('shop-user/logout', [AuthenticatedSessionController::class, 'destroyShopUser']);
 
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->name('verification.notice'); //->middleware('auth')
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/mypage');
+})->middleware(['auth', 'signed'])->name('verification.verify');
