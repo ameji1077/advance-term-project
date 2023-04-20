@@ -41,4 +41,10 @@ class ShopUserController extends Controller
         Shop::create($data);
         return redirect('/shop-user');
     }
+
+    public function reservationConfirm($id)
+    {
+        $reservation = Reservation::find($id);
+        return view('shop-user.reservation-detail',['reservation' => $reservation]);
+    }
 }

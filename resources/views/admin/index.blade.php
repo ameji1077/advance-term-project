@@ -162,6 +162,27 @@
     padding-left: 10px;
   }
 
+  .send-mail-form{
+    margin: 20px;
+    padding-bottom: 10px;
+  }
+
+  .send-mail-form input{
+    width: 100%;
+    line-height: 2;
+    font-weight: bold;
+  }
+
+  .send-mail-form textarea{
+    margin-top: 10px;
+    width: 100%;
+    height: 100px;
+  }
+
+  .send-mail-form button{
+    margin-top: 10px;
+  }
+
   @media screen and (max-width: 768px) {
     .header-title,
     .logout-button{
@@ -208,6 +229,7 @@
   <ul class="tab-menu">
     <li class="tab-menu__item active">作成</li>
     <li class="tab-menu__item">一覧</li>
+    <li class="tab-menu__item">メール</li>
   </ul>
   <div class="tab-content__item show">
     <div class="form-header">
@@ -299,6 +321,20 @@
           </tr>
         @endforeach
       </table>
+    </div>
+  </div>
+  <div class="tab-content__item">
+    <div class="form-header">
+      <h2 class="form-title">
+        メール送信
+      </h2>
+    </div>
+    <div class="shop-users-table">
+      <form action="/admin/send" method="GET" class="send-mail-form">
+        <input type="text" name="title" placeholder="タイトルを入力してください">
+        <textarea name="text" placeholder="メールの本文を入力してください"></textarea>
+        <button class="form-button">送信する</button>
+      </form>
     </div>
   </div>
 </div>

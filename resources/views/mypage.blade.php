@@ -168,6 +168,11 @@
         cursor: pointer;
     }
 
+    .qr-code svg{
+        display: block;
+        margin: 10px auto;
+    }
+
     .like{
         width: 50px;
         border: none;
@@ -351,6 +356,9 @@
                         </table>
                         <button class="update-btn">予約を更新する</button>
                     </form>
+                    <div class="qr-code">
+                        {!! QrCode::generate(url('/shop-user/' . $reservation->id)) !!} 
+                    </div>
                 </div>
                 @endif
                 @endforeach

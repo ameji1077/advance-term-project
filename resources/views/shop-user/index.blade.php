@@ -318,17 +318,17 @@
       <div class="reservation-list">
         <table>
           <tr>
-            <th>日付</th>
-            <th>時間</th>
+            <th>日時</th>
             <th>人数</th>
+            <th>お名前</th>
             <th>詳細</th>
           </tr>
           @foreach ($reservations as $reservation)
             <tr>
               <td>{{$reservation->start_at}}</td>
-              <td>{{$reservation->start_at}}</td>
               <td>{{$reservation->num_of_users}}</td>
-              <td><a href="">詳細</a></td>
+              <td>{{$reservation->user->name}}</td>
+              <td><a href="/shop-user/{{$reservation->id}}">詳細</a></td>
             </tr>
           @endforeach
         </table>
