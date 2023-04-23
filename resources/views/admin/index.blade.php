@@ -153,13 +153,7 @@
 
   .shop-users-table th:nth-of-type(2),
   .shop-users-table td:nth-of-type(2){
-    width: 45%;
-  }
-
-  .shop-users-table th:nth-of-type(3),
-  .shop-users-table td:nth-of-type(3){
-    width: 30%;
-    padding-left: 10px;
+    width: 75%;
   }
 
   .send-mail-form{
@@ -199,19 +193,14 @@
 
     .shop-users-table th:nth-of-type(1),
     .shop-users-table td:nth-of-type(1){
-      width: 30%;
+      width: 40%;
     }
 
     .shop-users-table th:nth-of-type(2),
     .shop-users-table td:nth-of-type(2) div{
       white-space: nowrap;
       overflow: scroll;
-      width: 100px;
-    }
-
-    .shop-users-table th:nth-of-type(3),
-    .shop-users-table td:nth-of-type(3){
-      width: 50px;
+      width: 150px;
     }
   }
 </style>
@@ -276,22 +265,6 @@
             <input type="password" name="password" placeholder="password">
           </td>
         </tr>
-        @error('shop_level')
-          <tr>
-            <th></th>
-            <td class="error-message">{{$message}}</td>
-          </tr>
-        @enderror
-        <tr>
-          <th>店舗レベル</th>
-          <td>
-            <select name="shop_level">
-              @for ($i = 0; $i <= 10; $i++)
-                <option value="{{$i}}">{{$i}}</option>
-              @endfor
-            </select>
-          </td>
-        </tr>
       </table>
       <button class="form-button">作成する</button>
     </form>
@@ -307,7 +280,6 @@
         <tr>
           <th>店舗代表者名</th>
           <th>メールアドレス</th>
-          <th>店舗レベル</th>
         </tr>
         @foreach ($shop_users as $shop_user)
           <tr>
@@ -317,7 +289,6 @@
                 {{$shop_user->email}}
               </div>
             </td>
-            <td>{{$shop_user->shop_level}}</td>
           </tr>
         @endforeach
       </table>

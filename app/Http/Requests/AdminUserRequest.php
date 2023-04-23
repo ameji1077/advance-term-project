@@ -27,7 +27,6 @@ class AdminUserRequest extends FormRequest
             'name' => ['required','string'],
             'email' => ['required','string','email','unique:App\Models\AdminUser,email'],
             'password' => ['required','min:8'],
-            'shop_level' => ['required','integer'],
         ];
     }
 
@@ -40,8 +39,6 @@ class AdminUserRequest extends FormRequest
             'email.unique' => '他のユーザーが既に使われているメールアドレスです',
             'password.required' => 'パスワードを入力してください',
             'password.min' => 'パスワードを8文字以上入力してください',
-            'shop_level.required' => '店舗レベルを入力してください',
-            'shop_level.integer' => '整数値で入力してください',
         ];
     }
 }
