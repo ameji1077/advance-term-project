@@ -19,6 +19,7 @@ class UserTableSeeder extends Seeder
             'name' => 'test-user',
             'email' => 'test.user@example.com',
             'password' => Hash::make('test-user-001'),
+            'email_verified_at' => '2023-4-23 0:00',
         ];
         User::create($param);
     }

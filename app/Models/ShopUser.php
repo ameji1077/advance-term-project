@@ -12,6 +12,11 @@ class ShopUser extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+
     protected $fillable = [
         'name',
         'email',

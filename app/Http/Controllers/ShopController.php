@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Area;
 use App\Models\Genre;
 use App\Models\Like;
+use App\Models\Review;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,8 @@ class ShopController extends Controller
     {
         $user = Auth::user();
         $shop = Shop::find($shop_id);
-        return view('shop-detail',['user' => $user,'shop' => $shop]);
+        $reviews = Review::where('shop_id',$shop_id)->get();
+        return view('shop-detail',['user' => $user,'shop' => $shop,'reviews' => $reviews]);
     }
 
     public function favorite(Request $request)

@@ -176,12 +176,17 @@
 @section('content')
 <div class="tab">
   <ul class="tab-menu">
-    <li class="tab-menu__item active">作成</li>
+    @unless ($shop)
+    <li class="tab-menu__item">作成</li>
+    @endunless
+    @if ($shop)
     <li class="tab-menu__item">更新</li>
-    <li class="tab-menu__item">予約</li>
+    @endif
+    <li class="tab-menu__item active">予約</li>
   </ul>
   <div class="tab-content">
-    <div class="tab-content__item show">
+    @unless ($shop)
+    <div class="tab-content__item">
       <div class="tab-content-header">
         <h2 class="content-title">店舗作成</h2>
       </div>
@@ -261,24 +266,28 @@
       <button class="shop-button">作成</button>
       </form>
     </div>
+    @endunless
+    @if ($shop)
     <div class="tab-content__item">
       <div class="tab-content-header">
         <h2 class="content-title">店舗更新</h2>
       </div>
       <form action="/shop-user/shop/update" method="POST" class="shop-form">
         @csrf
+        <input type="hidden" name="id" value="{{$shop->id}}">
         <input type="hidden" name="shop_user_id" value="{{$user->id}}">
         <table>
           <tr>
             <th>店舗名</th>
             <td>
-              <input type="text" name="name" value="">
+              <input type="text" name="name" value="{{$shop->name}}">
             </td>
           </tr>
           <tr>
             <th>エリア名</th>
             <td>
               <select name="area_id">
+                <option value="{{$shop->area->id}}" selected>{{$shop->area->name}}</option>
                 @foreach ($areas as $area)
                   <option value="{{$area->id}}">{{$area->name}}</option>
                 @endforeach
@@ -289,6 +298,7 @@
             <th>ジャンル名</th>
             <td>
               <select name="genre_id">
+                <option value="{{$shop->genre->id}}" selected>{{$shop->genre->name}}</option>
                 @foreach ($genres as $genre)
                   <option value="{{$genre->id}}">{{$genre->name}}</option>
                 @endforeach
@@ -298,20 +308,21 @@
           <tr>
             <th>説明文</th>
             <td>
-              <textarea name="description"></textarea>
+              <textarea name="description">{{$shop->description}}</textarea>
             </td>
           </tr>
           <tr>
             <th>トップ画像</th>
             <td>
-              <input type="file" name="image_url">
+              <input type="file" name="image_url" value="">
             </td>
           </tr>
       </table>
       <button class="shop-button">更新</button>
       </form>
     </div>
-    <div class="tab-content__item">
+    @endif
+    <div class="tab-content__item show">
       <div class="tab-content-header">
         <h2 class="content-title">予約状況</h2>
       </div>
