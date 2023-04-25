@@ -21,7 +21,7 @@
   }
 
   .tab {
-    margin: 100px auto;
+    margin: 50px auto 30px;
     width: 600px;
   }
 
@@ -104,6 +104,10 @@
     vertical-align: middle;
   }
 
+  .shop-form td img{
+    width: 50%;
+  }
+
   .shop-form input,
   .shop-form select,
   .shop-form textarea{
@@ -128,6 +132,7 @@
     border: none;
     border-radius: 5px;
     box-shadow: 2px 2px 5px #999;
+    cursor: pointer;
   }
 
   .reservation-list{
@@ -190,7 +195,7 @@
       <div class="tab-content-header">
         <h2 class="content-title">店舗作成</h2>
       </div>
-      <form action="/shop-user/shop/create" method="POST" class="shop-form">
+      <form action="/shop-user/shop/create" method="POST" class="shop-form" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="shop_user_id" value="{{$user->id}}">
         <table>
@@ -259,7 +264,7 @@
           <tr>
             <th>トップ画像</th>
             <td>
-              <input type="file" name="image_url">
+              <input type="file" name="image_url" accept=".jpg, .jpeg, .png">
             </td>
           </tr>
       </table>
@@ -272,10 +277,10 @@
       <div class="tab-content-header">
         <h2 class="content-title">店舗更新</h2>
       </div>
-      <form action="/shop-user/shop/update" method="POST" class="shop-form">
+      <form action="/shop-user/shop/update" method="POST" class="shop-form" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{$shop->id}}">
-        <input type="hidden" name="shop_user_id" value="{{$user->id}}">
+        {{-- <input type="hidden" name="shop_user_id" value="{{$user->id}}"> --}}
         <table>
           <tr>
             <th>店舗名</th>
@@ -314,7 +319,12 @@
           <tr>
             <th>トップ画像</th>
             <td>
-              <input type="file" name="image_url" value="">
+              @if ($shop->image_url)
+                <img src="{{asset($shop->image_url)}}" alt="現在の画像"><br>
+              @else
+                <p>現在の画像はありません</p><br>
+              @endif
+              <input type="file" name="image_url" accept=".jpg, .jpeg, .png">
             </td>
           </tr>
       </table>

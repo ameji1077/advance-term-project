@@ -8,6 +8,7 @@ use App\Models\ShopUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class AdminUserController extends Controller
@@ -21,6 +22,7 @@ class AdminUserController extends Controller
     public function shopUserCreate(AdminUserRequest $request)
     {
         $form = $request->all();
+        $form['password'] = Hash::make($form['password']);
         ShopUser::create($form);
         return redirect('/admin');
     }

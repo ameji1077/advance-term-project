@@ -140,7 +140,7 @@
   }
 
   .shop-reviews{
-    margin-top: 50px;
+    margin-top: 100px;
     margin-bottom: 50px;
     padding: 20px 40px;
     width: 35%;
@@ -209,8 +209,13 @@
       top: 20px;
       left: 0;
       padding: 30px;
-      width: 80%;
+      width: auto;
       height: 45%;
+    }
+
+    .shop-reviews{
+      margin-top: 50px;
+      width: auto;
     }
   }
 </style>

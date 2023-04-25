@@ -28,7 +28,7 @@ class ShopRequest extends FormRequest
             'area_id' => ['required','integer'],
             'genre_id' => ['required','integer'],
             'description' => ['required','string'],
-            'image_url' => ['required'],  /** ,'mimes:jpeg,jpg,png' */
+            'image_url' => ['mimes:jpeg,jpg,png'],
         ];
     }
 
@@ -43,8 +43,7 @@ class ShopRequest extends FormRequest
             'genre_id.integer' => '整数値で入力してください',
             'description.required' => '説明文を入力してください',
             'description.string' => '文字列型で入力してください',
-            'image_url.required' => 'ファイルを選択してください',
-            // 'image_url.mimes' => '.jpeg,.jpg,.pngのファイルを選択してください',
+            'image_url.mimes' => '.jpeg,.jpg,.pngのファイルを選択してください',
         ];
     }
 }

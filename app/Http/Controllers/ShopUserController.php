@@ -27,45 +27,38 @@ class ShopUserController extends Controller
     public function shopCreate(ShopRequest $request)
     {
         $form = $request->except('image_url');
-        // $path = $request->file('image_url')->store('images');
-        $image = $request->file('image_url');
-        // $url = '';
         $path = '';
-        // if ($image) {
-            // $filename = $image->getClientOriginalName();
-            // Storage::put('images',$image);
-            // $url = Storage::url($image);
-            $path = Storage::path($image);
-        // };
-        $data = array_merge($form,['image_url' => $path]);
+
+        if ($request->hasFile('image_url')) {
+            // 画像がアップロードされた場合
+            $image = $request->file('image_url');
+            $path = Storage::putFile('public/images',$image);
+            $url = str_replace('public/', 'storage/', $path);
+        } else {
+            // デフォルトの画像を使用する場合
+            $url = 'storage/images/default.jpg';
+        }
+        $data = array_merge($form, ['image_url' => $url]);
         Shop::create($data);
         return redirect('/shop-user');
     }
 
-    // public function shopUpdate(ShopRequest $request)
-    // {
-    //     $form = $request->except('image_url');
-    //     unset($form['_token']);
-    //     $image = $request->file('image_url');
-    //     if ($image) {
-    //         $path = $image->store('public/images');
-    //         $url = Storage::url($path);
-    //         $form['image_url'] = $url;
-    //     };
-    //     Shop::where('id',$request->id)->update($form);
-    //     return redirect('/shop-user');
-    // }
-
     public function shopUpdate(ShopRequest $request)
     {
-        $form = $request->except(['_token', '_method', 'image_url', 'id']);
-
+        $form = $request->except('image_url');
+        $shop = Shop::find($request->id);
+        $image_url = $shop->image_url;
+        unset($form['_token']);
         if ($request->hasFile('image_url')) {
-            $path = $request->file('image_url')->store('public/images');
-            $url = str_replace('public/', '', Storage::url($path));
+            if ($image_url !== 'storage/images/default.jpg') {
+                $image_url = substr($image_url,15);
+                Storage::disk('public')->delete('images/' . $image_url);
+            };
+            $image = $request->file('image_url');
+            $path = Storage::putFile('public/images',$image);
+            $url = str_replace('public/', 'storage/', $path);
             $form['image_url'] = $url;
-        }
-
+        };
         Shop::where('id', $request->id)->update($form);
         return redirect('/shop-user');
     }
