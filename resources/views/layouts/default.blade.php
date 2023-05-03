@@ -191,7 +191,7 @@ select {
 
 <style>
 body{
-  margin: 0 100px;
+  margin: 0 50px;
   background: #eee;
 }
 

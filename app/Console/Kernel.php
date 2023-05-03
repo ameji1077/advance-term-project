@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\Reservation;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,6 +18,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('reminder:email')
         ->dailyAt('7:00');
+        $schedule->command('command:DeleteExpiredReservations')
+        ->dailyAt('0:00');
     }
 
     /**

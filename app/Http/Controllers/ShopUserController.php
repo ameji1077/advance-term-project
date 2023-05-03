@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CourseRequest;
 use App\Http\Requests\ShopRequest;
 use App\Models\Area;
+use App\Models\Course;
 use App\Models\Genre;
 use App\Models\Reservation;
 use App\Models\Shop;
@@ -18,10 +20,14 @@ class ShopUserController extends Controller
         $user = Auth::user();
         $shop = null;
         $shop = Shop::where('shop_user_id',$user->id)->first();
+        $course = null;
+        if ($shop !== null) {
+            $course = Course::where('shop_id', $shop->id)->first();
+        };
         $areas = Area::all();
         $genres = Genre::all();
         $reservations = Reservation::where('shop_id',$user->id)->get();
-        return view('shop-user.index',['user' => $user,'shop' => $shop,'areas' => $areas,'genres' => $genres,'reservations' => $reservations]);
+        return view('shop-user.index',['user' => $user,'shop' => $shop,'areas' => $areas,'genres' => $genres,'reservations' => $reservations,'course' => $course]);
     }
 
     public function shopCreate(ShopRequest $request)
@@ -60,6 +66,21 @@ class ShopUserController extends Controller
             $form['image_url'] = $url;
         };
         Shop::where('id', $request->id)->update($form);
+        return redirect('/shop-user');
+    }
+
+    public function courseCreate(CourseRequest $request)
+    {
+        $form = $request->all();
+        Course::create($form);
+        return redirect('/shop-user');
+    }
+
+    public function courseUpdate(CourseRequest $request)
+    {
+        $form = $request->all();
+        unset($form['_token']);
+        Course::where('shop_id',$request->shop_id)->update($form);
         return redirect('/shop-user');
     }
 

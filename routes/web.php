@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShopController;
@@ -30,6 +31,8 @@ Route::group(['middleware' => 'verified'],function () {
     Route::post('/favorite',[ShopController::class,'favorite']);
     Route::post('/favorite/delete', [ShopController::class, 'favoriteDelete']);
     Route::post('/reserve',[ReservationController::class,'reserve']);
+    Route::get('/pay/{reservation_id}',[PaymentController::class,'show']);
+    Route::post('/pay/process',[PaymentController::class,'process']);
     Route::post('/reserve/delete', [ReservationController::class, 'reserveDelete']);
     Route::post('/reserve/update',[ReservationController::class, 'reserveUpdate']);
     Route::post('/review',[ReviewController::class,'review']);
@@ -45,5 +48,7 @@ Route::group(['middleware' => 'auth:shop-user'], function () {
     Route::get('/shop-user', [ShopUserController::class, 'index']);
     Route::post('/shop-user/shop/create',[ShopUserController::class,'shopCreate']);
     Route::post('/shop-user/shop/update',[ShopUserController::class,'shopUpdate']);
+    Route::post('/shop-user/course/create',[ShopUserController::class,'courseCreate']);
+    Route::post('shop-user/course/update',[ShopUserController::class,'courseUpdate']);
     Route::get('shop-user/{id}',[ShopUserController::class,'reservationConfirm']);
 });

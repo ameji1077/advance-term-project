@@ -20,7 +20,12 @@ class ReservationController extends Controller
         $reservation->shop_id = $request->shop_id;
         $reservation->start_at = $start_at;
         $reservation->num_of_users = $request->num_of_users;
+        $reservation->course_id = $request->course_id;
         $reservation->save();
+        if ($reservation->course_id !== null) {
+            session()->put('course_id',$request->course_id);
+            return redirect('/pay/' . $reservation->id);
+        };
         return view('done',['user' => $user]);
     }
 

@@ -17,8 +17,10 @@ class CreateReservationsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('shop_id');
+            $table->integer('course_id')->nullable();
             $table->dateTime('start_at');
             $table->integer('num_of_users');
+            $table->timestamp('paid_at')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });

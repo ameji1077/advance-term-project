@@ -86,6 +86,14 @@
     border-radius: 5px;
   }
 
+  .input-course{
+    margin-top: 10px;
+    width: 95%!important;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+  }
+
   .error-message{
     margin: 5px 0px 10px;
     color: #ff0000;
@@ -236,7 +244,7 @@
         <h2 class="shop-name">{{$shop->name}}</h2>
       </div>
       <div class="shop-img">
-        <img src="{{$shop->image_url}}" alt="ショップイメージ">
+        <img src="{{asset($shop->image_url)}}" alt="ショップイメージ">
       </div>
       <p class="shop-detail">#{{$shop->area->name}} #{{$shop->genre->name}}</p>
       <p class="shop-description">{{$shop->description}}</p>
@@ -251,8 +259,8 @@
       @enderror
       <select name="time" class="input-time" id="time">
         <?php
-          $start_time = strtotime("00:00");
-          $end_time = strtotime("23:45");
+          $start_time = strtotime("11:00");
+          $end_time = strtotime("22:00");
           $interval = 15 * 60; // 15分を秒に変換
           for ($i = $start_time; $i <= $end_time; $i += $interval) {
             $time = date("H:i", $i);
@@ -271,6 +279,12 @@
       @error('num_of_users')
         <p class="error-message">{{$message}}</p>
       @enderror
+      <select name="course_id" class="input-course" id="course">
+        <option value="" selected>なし</option>
+        @if ($course)
+          <option value="{{$course->id}}" data-price="{{ $course->price }}">{{$course->course_name}} ({{number_format($course->price,0)}}円)</option>
+        @endif
+      </select>
       <table>
         <tr>
           <th>Shop</th>
@@ -282,11 +296,19 @@
         </tr>
         <tr>
           <th>Time</th>
-          <td id="timeResult">00:00</td>
+          <td id="timeResult">11:00</td>
         </tr>
         <tr>
           <th>Number</th>
           <td id="numberResult">1人</td>
+        </tr>
+        <tr>
+          <th>Course</th>
+          <td id="courseResult">なし</td>
+        </tr>
+        <tr>
+          <th>Total</th>
+          <td id="totalResult">-</td>
         </tr>
       </table>
       <button class="reservation-button">予約する</button>

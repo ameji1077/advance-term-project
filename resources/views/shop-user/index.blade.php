@@ -90,10 +90,6 @@
     height: 50px;
   }
 
-  .shop-form tr:nth-of-type(4){
-    height: 100px;
-  }
-
   .shop-form th{
     width: 30%;
     vertical-align: middle;
@@ -121,6 +117,7 @@
 
   .shop-form textarea{
     height: 80px;
+    margin-bottom: 10px;
   }
 
   .shop-button{
@@ -133,6 +130,11 @@
     border-radius: 5px;
     box-shadow: 2px 2px 5px #999;
     cursor: pointer;
+  }
+
+  .error-message{
+    color: #ff0000;
+    vertical-align: top!important;
   }
 
   .reservation-list{
@@ -186,6 +188,12 @@
     @endunless
     @if ($shop)
     <li class="tab-menu__item">更新</li>
+    @unless ($course)
+    <li class="tab-menu__item">コース作成</li>
+    @endunless
+    @if ($course)
+    <li class="tab-menu__item">コース更新</li>
+    @endif
     @endif
     <li class="tab-menu__item active">予約</li>
   </ul>
@@ -199,22 +207,17 @@
         @csrf
         <input type="hidden" name="shop_user_id" value="{{$user->id}}">
         <table>
-          @error('name')
-            <tr>
-              <th></th>
-              <td>{{$message}}</td>
-            </tr>
-          @enderror
+          
           <tr>
             <th>店舗名</th>
-            <td>
+            <td class="error-message">
               <input type="text" name="name">
             </td>
           </tr>
-          @error('area_id')
+          @error('name')
             <tr>
               <th></th>
-              <td>{{$message}}</td>
+              <td class="error-message">{{$message}}</td>
             </tr>
           @enderror
           <tr>
@@ -227,10 +230,10 @@
               </select>
             </td>
           </tr>
-          @error('genre_id')
+          @error('area_id')
             <tr>
               <th></th>
-              <td>{{$message}}</td>
+              <td class="error-message">{{$message}}</td>
             </tr>
           @enderror
           <tr>
@@ -243,10 +246,10 @@
               </select>
             </td>
           </tr>
-          @error('description')
+          @error('genre_id')
             <tr>
               <th></th>
-              <td>{{$message}}</td>
+              <td class="error-message">{{$message}}</td>
             </tr>
           @enderror
           <tr>
@@ -255,10 +258,10 @@
               <textarea name="description"></textarea>
             </td>
           </tr>
-          @error('image_url')
+          @error('description')
             <tr>
               <th></th>
-              <td>{{$message}}</td>
+              <td class="error-message">{{$message}}</td>
             </tr>
           @enderror
           <tr>
@@ -267,8 +270,14 @@
               <input type="file" name="image_url" accept=".jpg, .jpeg, .png">
             </td>
           </tr>
-      </table>
-      <button class="shop-button">作成</button>
+          @error('image_url')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
+        </table>
+        <button class="shop-button">作成</button>
       </form>
     </div>
     @endunless
@@ -280,7 +289,6 @@
       <form action="/shop-user/shop/update" method="POST" class="shop-form" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{$shop->id}}">
-        {{-- <input type="hidden" name="shop_user_id" value="{{$user->id}}"> --}}
         <table>
           <tr>
             <th>店舗名</th>
@@ -288,6 +296,12 @@
               <input type="text" name="name" value="{{$shop->name}}">
             </td>
           </tr>
+          @error('name')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
           <tr>
             <th>エリア名</th>
             <td>
@@ -299,6 +313,12 @@
               </select>
             </td>
           </tr>
+          @error('area_id')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
           <tr>
             <th>ジャンル名</th>
             <td>
@@ -310,12 +330,24 @@
               </select>
             </td>
           </tr>
+          @error('genre_id')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
           <tr>
             <th>説明文</th>
             <td>
               <textarea name="description">{{$shop->description}}</textarea>
             </td>
           </tr>
+          @error('description')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
           <tr>
             <th>トップ画像</th>
             <td>
@@ -327,10 +359,92 @@
               <input type="file" name="image_url" accept=".jpg, .jpeg, .png">
             </td>
           </tr>
-      </table>
-      <button class="shop-button">更新</button>
+          @error('image_url')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
+        </table>
+        <button class="shop-button">更新</button>
       </form>
     </div>
+    @unless($course)
+    <div class="tab-content__item">
+      <div class="tab-content-header">
+        <h2 class="content-title">コース作成</h2>
+      </div>
+      <form action="/shop-user/course/create" method="POST" class="shop-form">
+        @csrf
+        <input type="hidden" name="shop_id" value="{{$shop->id}}">
+        <table>
+          <tr>
+            <th>コース名</th>
+            <td>
+              <input type="text" name="course_name">
+            </td>
+          </tr>
+          @error('course_name')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
+          <tr>
+            <th>価格</th>
+            <td>
+              <input type="number" name="price">
+            </td>
+          </tr>
+          @error('price')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
+        </table>
+        <button class="shop-button">作成</button>
+      </form>
+    </div>
+    @endunless
+    @if($course)
+    <div class="tab-content__item">
+      <div class="tab-content-header">
+        <h2 class="content-title">コース更新</h2>
+      </div>
+      <form action="/shop-user/course/update" method="POST" class="shop-form">
+        @csrf
+        <input type="hidden" name="shop_id" value="{{$shop->id}}">
+        <table>
+          <tr>
+            <th>コース名</th>
+            <td>
+              <input type="text" name="course_name" value="{{$course->course_name}}">
+            </td>
+          </tr>
+          @error('course_name')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
+          <tr>
+            <th>価格</th>
+            <td>
+              <input type="number" name="price" value="{{$course->price}}">
+            </td>
+          </tr>
+          @error('price')
+            <tr>
+              <th></th>
+              <td class="error-message">{{$message}}</td>
+            </tr>
+          @enderror
+        </table>
+        <button class="shop-button">更新</button>
+      </form>
+    </div>
+    @endif
     @endif
     <div class="tab-content__item show">
       <div class="tab-content-header">

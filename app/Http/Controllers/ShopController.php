@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
+use App\Models\Course;
 use App\Models\Genre;
 use App\Models\Like;
 use App\Models\Review;
@@ -38,8 +39,9 @@ class ShopController extends Controller
     {
         $user = Auth::user();
         $shop = Shop::find($shop_id);
+        $course = Course::where('shop_id',$shop_id)->first();
         $reviews = Review::where('shop_id',$shop_id)->get();
-        return view('shop-detail',['user' => $user,'shop' => $shop,'reviews' => $reviews]);
+        return view('shop-detail',['user' => $user,'shop' => $shop,'course' => $course,'reviews' => $reviews]);
     }
 
     public function favorite(Request $request)

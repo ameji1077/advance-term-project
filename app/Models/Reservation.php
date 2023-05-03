@@ -9,6 +9,8 @@ class Reservation extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['num_of_users','course_id'];
+
     protected $dates = ['start_at'];
 
     public function user()
@@ -24,5 +26,10 @@ class Reservation extends Model
     public function review()
     {
         return $this->belongsTo(Review::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 }
