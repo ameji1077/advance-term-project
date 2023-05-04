@@ -10,6 +10,11 @@
     font-size: 32px;
   }
 
+  .header-title a{
+    text-decoration: none;
+    color: black;
+  }
+
   .logout-button{
     padding: 5px 10px;
     background: #fff;
@@ -147,22 +152,28 @@
 
   .reservation-list tr{
     height: 50px;
+    text-align: center; 
   }
 
   .reservation-list th:nth-of-type(1){
-    width: 30%
+    width: 40%;
   }
 
   .reservation-list th:nth-of-type(2){
-    width: 30%
+    width: 15%;
   }
 
   .reservation-list th:nth-of-type(3){
-    width: 20%;
+    width: 30%;
   }
 
   .reservation-list th:nth-of-type(4){
-    width: 20%;
+    width: 15%;
+  }
+
+  .reservation-list a{
+    text-decoration: none;
+    color: blue;
   }
 
   @media screen and (max-width: 768px) {
@@ -173,7 +184,11 @@
 </style>
 
 <header class="header">
-  <h1 class="header-title">管理画面</h1>
+  <h1 class="header-title">
+    <a href="/shop-user">
+      管理画面
+    </a>
+  </h1>
   <form action="/shop-user/logout" method="POST">
     @csrf
     <input type="submit" value="logout" class="logout-button">
@@ -267,7 +282,7 @@
           <tr>
             <th>トップ画像</th>
             <td>
-              <input type="file" name="image_url" accept=".jpg, .jpeg, .png">
+              <input type="file" name="image_url" accept=".jpg, .jpeg, .svg">
             </td>
           </tr>
           @error('image_url')
@@ -393,7 +408,7 @@
           <tr>
             <th>価格</th>
             <td>
-              <input type="number" name="price">
+              <input type="text" name="price">
             </td>
           </tr>
           @error('price')
@@ -431,7 +446,7 @@
           <tr>
             <th>価格</th>
             <td>
-              <input type="number" name="price" value="{{$course->price}}">
+              <input type="text" name="price" value="{{$course->price}}">
             </td>
           </tr>
           @error('price')
@@ -473,16 +488,16 @@
 </div>
 <script>
   const tabs = document.getElementsByClassName('tab-menu__item');
-for (let i = 0; i < tabs.length; i++) {
-  tabs[i].addEventListener('click', tabSwitch);
-}
-function tabSwitch() {
-  document.getElementsByClassName('active')[0].classList.remove('active');
-  this.classList.add('active');
-  document.getElementsByClassName('show')[0].classList.remove('show');
-  const arrayTabs = Array.prototype.slice.call(tabs);
-  const index = arrayTabs.indexOf(this);
-  document.getElementsByClassName('tab-content__item')[index].classList.add('show');
-};
+  for (let i = 0; i < tabs.length; i++) {
+    tabs[i].addEventListener('click', tabSwitch);
+  }
+  function tabSwitch() {
+    document.getElementsByClassName('active')[0].classList.remove('active');
+    this.classList.add('active');
+    document.getElementsByClassName('show')[0].classList.remove('show');
+    const arrayTabs = Array.prototype.slice.call(tabs);
+    const index = arrayTabs.indexOf(this);
+    document.getElementsByClassName('tab-content__item')[index].classList.add('show');
+  };
 </script>
 @endsection

@@ -55,16 +55,21 @@
 
   .shop-card{
     margin-top: 20px;
-    width: 280px;
-    height: 300px;
+    width: 320px;
+    height: 330px;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 2px 2px 5px #999;
   }
 
+  .shop-img{
+    width: 100%;
+    height: 180px;
+  }
+
   .shop-img img{
     width: 100%;
-    height: 50%;
+    height: 100%;
     border-radius: 10px 10px 0 0;
   }
 

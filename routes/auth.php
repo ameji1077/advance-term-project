@@ -53,7 +53,7 @@ Route::middleware('verified')->group(function () {
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','last_activity')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });

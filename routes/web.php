@@ -27,15 +27,17 @@ Route::get('/detail/{shop_id}',[ShopController::class,'detail']);
 Route::get('/find',[ShopController::class,'search']);
 Route::get('/thanks', [UserController::class, 'thanks']);
 Route::group(['middleware' => 'verified'],function () {
-    Route::get('/mypage',[UserController::class,'mypage']);
-    Route::post('/favorite',[ShopController::class,'favorite']);
-    Route::post('/favorite/delete', [ShopController::class, 'favoriteDelete']);
-    Route::post('/reserve',[ReservationController::class,'reserve']);
-    Route::get('/pay/{reservation_id}',[PaymentController::class,'show']);
-    Route::post('/pay/process',[PaymentController::class,'process']);
-    Route::post('/reserve/delete', [ReservationController::class, 'reserveDelete']);
-    Route::post('/reserve/update',[ReservationController::class, 'reserveUpdate']);
-    Route::post('/review',[ReviewController::class,'review']);
+    Route::group(['middleware' => 'last_activity'],function () {
+        Route::get('/mypage',[UserController::class,'mypage']);
+        Route::post('/favorite',[ShopController::class,'favorite']);
+        Route::post('/favorite/delete', [ShopController::class, 'favoriteDelete']);
+        Route::post('/reserve',[ReservationController::class,'reserve']);
+        Route::get('/pay/{reservation_id}',[PaymentController::class,'show']);
+        Route::post('/pay/process',[PaymentController::class,'process']);
+        Route::post('/reserve/delete', [ReservationController::class, 'reserveDelete']);
+        Route::post('/reserve/update',[ReservationController::class, 'reserveUpdate']);
+        Route::post('/review',[ReviewController::class,'review']);
+    });
 });
 
 Route::group(['middleware' => 'auth:admin'],function () {

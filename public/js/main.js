@@ -62,7 +62,7 @@ inputCourse.addEventListener('change', updateTotalResult);
 
   const selectElement = document.getElementById('selectShopId');
   const hiddenElement = document.getElementById('hiddenShopId');
-  selectElement.addEventListener('change', () => {
-    hiddenElement.value = selectElement.value;
-  });
+  // selectElement.addEventListener('change', () => {
+  //   hiddenElement.value = selectElement.value;
+  // });
 

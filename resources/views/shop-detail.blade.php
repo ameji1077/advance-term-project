@@ -218,7 +218,7 @@
       left: 0;
       padding: 30px;
       width: auto;
-      height: 45%;
+      height: 70%;
     }
 
     .shop-reviews{

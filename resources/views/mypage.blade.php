@@ -12,11 +12,15 @@
         margin-top: 50px;
     }
 
-    .reservations{
+    .tab-menu{
+        display: none;
+    }
+
+    .tab-content__item:nth-of-type(1){
         width: 50%;
     }
 
-    .likes{
+    .tab-content__item:nth-of-type(2){
         width: 50%;
     }
 
@@ -26,8 +30,7 @@
         font-weight: bold;
     }
 
-    .reservation-card,
-    .review-card{
+    .reservation-card{
         margin-top: 30px;
         margin-bottom: 50px;
         padding: 30px;
@@ -125,16 +128,21 @@
 
     .shop-card{
         margin-top: 20px;
-        width: 290px;
-        height: 300px;
+        width: 280px;
+        height: 320px;
         background: #ffffff;
         border-radius: 10px;
         box-shadow: 2px 2px 5px #999;
     }
 
+    .shop-img{
+        width: 100%;
+        height: 170px;
+    }
+
     .shop-img img{
         width: 100%;
-        height: 50%;
+        height: 100%;
         border-radius: 10px 10px 0 0;
     }
 
@@ -183,6 +191,17 @@
 
     .like img{
         width: 100%;
+    }
+
+    .tab-content__item:nth-of-type(3){
+        margin-top: 30px;
+        margin-bottom: 50px;
+        padding: 30px;
+        width: 40%;
+        color: #fff;
+        background: #315BFB;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px #999;
     }
 
     .review-title{
@@ -257,22 +276,92 @@
             display: block;
         }
 
-        .reservations,
-        .likes{
+        .tab-menu{
+            display: flex;
+            justify-content: center;
+        }
+
+        .tab-menu__item {
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px 0;
+            cursor: pointer;
+            list-style: none;
+            width: 120px;
+            background: #fff;
+            border: 1px solid #315BFB;
+            box-shadow: 2px 2px 5px #999;
+        }
+
+        .tab-menu__item:not(:first-child) {
+            border-left: none;
+        }
+
+        .tab-menu__item:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+
+        .tab-menu__item:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+
+        .tab-menu__item.active {
+            background: #315BFB;
+            color: #fff;
+        }
+
+        .tab-content {
+            background: #fff;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px #999;
+        }
+
+        .tab-content__item {
+            display: none;
+        }
+
+        .tab-content__item.show {
+            display: block;
+        }
+
+        .tab-content__item:nth-of-type(1),
+        .tab-content__item:nth-of-type(2){
             width: 100%;
+        }
+
+        .reservation-title,
+        .like-title{
+            display: none;
         }
 
         .reservation-card{
             width: 70%;
+            margin: 20px auto;
         }
 
         .reservation-card table{
             width: 80%;
         }
 
+        .shop-card-wrapper{
+            display: block;
+        }
+
         .shop-card{
+            margin: 20px auto;
             width: 90%;
-            height: 90%;
+            height: auto;
+        }
+
+        .shop-img{
+            width: auto;
+            height: auto;
+        }
+
+        .shop-img img{
+            width: 100%;
+            height: auto;
         }
 
         .shop-name,
@@ -281,7 +370,8 @@
             margin-top: 5%;
         }
 
-        .review-card{
+        .tab-content__item:nth-of-type(3){
+            margin: 20px auto;
             width: 80%;
         }
     }
@@ -294,7 +384,12 @@
 @section('content')
     <h2 class="user-name">{{$user->name}}さん</h2>
     <div class="wrapper">
-        <div class="reservations">
+        <ul class="tab-menu">
+            <li class="tab-menu__item active">予約状況</li>
+            <li class="tab-menu__item">お気に入り店舗</li>
+            <li class="tab-menu__item">レビュー</li>
+        </ul>
+        <div class="tab-content__item show">
             <h3 class="reservation-title">予約状況</h3>
             @foreach ($reservations as $i => $reservation)
             @if (strtotime(date('Y-m-d H:i')) < strtotime($reservation->start_at))
@@ -330,8 +425,8 @@
                                     <select name="time" class="input-time">
                                         <option value="{{$reservation->start_at->format('H:i')}}">{{$reservation->start_at->format('H:i')}}</option>
                                         <?php
-                                        $start_time = strtotime("00:00");
-                                        $end_time = strtotime("23:45");
+                                        $start_time = strtotime("11:00");
+                                        $end_time = strtotime("22:00");
                                         $interval = 15 * 60; // 15分を秒に変換
 
                                         for ($i = $start_time; $i <= $end_time; $i += $interval) {
@@ -363,7 +458,7 @@
                 @endif
                 @endforeach
         </div>
-        <div class="likes">
+        <div class="tab-content__item">
             <h3 class="like-title">お気に入り店舗</h3>
             @if ($likes)
             <div class="shop-card-wrapper">
@@ -395,45 +490,64 @@
                 <p class="no-like-shop">現在、お気に入りに登録している店舗がありません</p>
             @endif
         </div>
-    </div>
-    <div class="review-card">
-        <h4 class="review-title">レビューを投稿する</h4>
-        <form action="/review" method="POST">
-            @csrf
-            <label class="label-review">予約店舗情報：
-                <select name="reservation_id" id="selectShopId" class="select-review">
-                    @foreach ($reservations as $reservation)
-                        @if (strtotime(date('Y-m-d H:i')) >= strtotime($reservation->start_at))
-                            @php
-                                $review = \App\Models\Review::where('reservation_id', $reservation->id)->first();
-                            @endphp
-                            @if ($review == null)
-                                <option value="{{$reservation->id}}">{{$reservation->shop->name}}〜{{$reservation->start_at}}</option>
+        <div class="tab-content__item">
+            <h4 class="review-title">レビューを投稿する</h4>
+            <form action="/review" method="POST">
+                @csrf
+                <label class="label-review">予約店舗情報：
+                    <select name="reservation_id" id="selectShopId" class="select-review">
+                        @foreach ($reservations as $reservation)
+                            @if (strtotime(date('Y-m-d H:i')) >= strtotime($reservation->start_at))
+                                @php
+                                    $review = \App\Models\Review::where('reservation_id', $reservation->id)->first();
+                                @endphp
+                                @if ($review == null)
+                                    <option value="{{$reservation->id}}">{{$reservation->shop->name}}〜{{$reservation->start_at}}</option>
+                                @endif
                             @endif
-                        @endif
-                    @endforeach
-                </select>
-            </label>
-            <input type="hidden" name="user_id" value="{{$user->id}}">
-            <input type="hidden" name="shop_id" id="hiddenShopId" value="">
-            <div class="rate-form">
-                <input id="star5" type="radio" name="stars" value="5">
-                <label for="star5">★</label>
-                <input id="star4" type="radio" name="stars" value="4">
-                <label for="star4">★</label>
-                <input id="star3" type="radio" name="stars" value="3">
-                <label for="star3">★</label>
-                <input id="star2" type="radio" name="stars" value="2">
-                <label for="star2">★</label>
-                <input id="star1" type="radio" name="stars" value="1">
-                <label for="star1">★</label>
-            </div>
-            @error('stars')
-                <p class="error-message">{{$message}}</p>
-            @enderror
-            <textarea name="comment" class="textarea-comment" placeholder="コメントをお願いします"></textarea>
-            <button class="review-button">レビューを送信する</button>
-        </form>
+                        @endforeach
+                    </select>
+                </label>
+                <input type="hidden" name="user_id" value="{{$user->id}}">
+                <input type="hidden" name="shop_id" id="hiddenShopId" value="">
+                <div class="rate-form">
+                    <input id="star5" type="radio" name="stars" value="5">
+                    <label for="star5">★</label>
+                    <input id="star4" type="radio" name="stars" value="4">
+                    <label for="star4">★</label>
+                    <input id="star3" type="radio" name="stars" value="3">
+                    <label for="star3">★</label>
+                    <input id="star2" type="radio" name="stars" value="2">
+                    <label for="star2">★</label>
+                    <input id="star1" type="radio" name="stars" value="1">
+                    <label for="star1">★</label>
+                </div>
+                @error('stars')
+                    <p class="error-message">{{$message}}</p>
+                @enderror
+                <textarea name="comment" class="textarea-comment" placeholder="コメントをお願いします"></textarea>
+                <button class="review-button">レビューを送信する</button>
+            </form>
+        </div>
     </div>
-    <script src="{{asset('/js/main.js')}}"></script>
+
+    <script>
+        const tabs = document.getElementsByClassName('tab-menu__item');
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].addEventListener('click', tabSwitch);
+        }
+        function tabSwitch() {
+            document.getElementsByClassName('active')[0].classList.remove('active');
+            this.classList.add('active');
+            document.getElementsByClassName('show')[0].classList.remove('show');
+            const arrayTabs = Array.prototype.slice.call(tabs);
+            const index = arrayTabs.indexOf(this);
+            document.getElementsByClassName('tab-content__item')[index].classList.add('show');
+        };
+        // const selectElement = document.getElementById('selectShopId');
+        // const hiddenElement = document.getElementById('hiddenShopId');
+        // selectElement.addEventListener('change', () => {
+        //     hiddenElement.value = selectElement.value;
+        // });
+    </script>
 @endsection

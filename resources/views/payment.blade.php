@@ -36,6 +36,13 @@
     padding: 20px;
   }
 
+  #card-element{
+    margin-top: 10px;
+    height: 17px;
+    padding: 7px;
+    border: 1px solid #999;
+  }
+
   .payment-form table{
     width: 100%;
     text-align: left;
@@ -58,6 +65,7 @@
   .payment-form input{
     width: 100%;
     line-height: 2;
+    border: 1px solid #999;
   }
 
   .submit-button{
@@ -72,6 +80,13 @@
     box-shadow: 2px 2px 5px #999;
     cursor: pointer;
   }
+
+  @media screen and (max-width:768px) {
+    .payment-content{
+      width: 100%;
+      min-width: auto;
+    }
+  }
 </style>
 
 <header class="header">
@@ -85,14 +100,10 @@
   </div>
   <form action="/pay/process" method="POST" id="payment-form" class="payment-form">
     @csrf
+    <h3 class="card-info">クレジットカード情報</h3>
+    <div id="card-element" class="card-element"></div>
+    <div id="card-errors" role="alert"></div>
     <table>
-      <tr>
-        <th>クレジットカード情報</th>
-        <td>
-          <div id="card-element" class="card-element"></div>
-          <div id="card-errors" role="alert"></div>
-        </td>
-      </tr>
       <tr>
         <th>カード名義</th>
         <td>
