@@ -101,8 +101,8 @@
     <form method="POST" action="{{ route('register') }}" class="form-content">
         <h2 class="title">Registration</h2>
         @csrf
+        <input type="hidden" name="user_type" value="1">
         <table>
-            
             <tr>
                 <th>
                     <img src="{{asset('images/user-icon.png')}}" alt="ユーザー">

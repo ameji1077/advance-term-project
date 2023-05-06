@@ -25,7 +25,7 @@ class AdminUserRequest extends FormRequest
     {
         return [
             'name' => ['required','string'],
-            'email' => ['required','string','email','unique:App\Models\AdminUser,email'],
+            'email' => ['required','string','email','unique:App\Models\User,email'],
             'password' => ['required','min:8'],
         ];
     }

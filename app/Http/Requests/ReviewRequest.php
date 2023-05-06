@@ -24,6 +24,7 @@ class ReviewRequest extends FormRequest
     public function rules()
     {
         return [
+            'reservation_id' => ['required','integer'],
             'stars' =>['required'],
         ];
     }
@@ -31,6 +32,7 @@ class ReviewRequest extends FormRequest
     public function messages()
     {
         return [
+            'reservation_id.required' => '予約店舗情報がありません',
             'stars.required' => '評価をつけてください',
         ];
     }

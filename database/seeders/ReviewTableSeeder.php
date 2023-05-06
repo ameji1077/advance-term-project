@@ -22,13 +22,5 @@ class ReviewTableSeeder extends Seeder
             'comment' => 'レビューです。レビューです。レビューです。レビューです。'
         ];
         Review::create($param);
-        $param = [
-            'reservation_id' => 2,
-            'user_id' => 1,
-            'shop_id' => 1,
-            'stars' => 1,
-            'comment' => 'レビューです。レビューです。レビューです。レビューです。'
-        ];
-        Review::create($param);
     }
 }

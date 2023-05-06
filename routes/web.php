@@ -26,7 +26,7 @@ Route::get('/',[ShopController::class,'index'])->name('shop.index');
 Route::get('/detail/{shop_id}',[ShopController::class,'detail']);
 Route::get('/find',[ShopController::class,'search']);
 Route::get('/thanks', [UserController::class, 'thanks']);
-Route::group(['middleware' => 'verified'],function () {
+Route::group(['middleware' => ['verified','userType:user']],function () {
     Route::group(['middleware' => 'last_activity'],function () {
         Route::get('/mypage',[UserController::class,'mypage']);
         Route::post('/favorite',[ShopController::class,'favorite']);
@@ -40,13 +40,13 @@ Route::group(['middleware' => 'verified'],function () {
     });
 });
 
-Route::group(['middleware' => 'auth:admin'],function () {
+Route::group(['middleware' => ['auth','userType:admin']], function () {
     Route::get('/admin',[AdminUserController::class,'index']);
     Route::post('/admin/shop-user/create',[AdminUserController::class,'shopUserCreate']);
     Route::get('/admin/send',[AdminUserController::class,'sendMail']);
 });
 
-Route::group(['middleware' => 'auth:shop-user'], function () {
+Route::group(['middleware' => ['auth','userType:shop-user']], function () {
     Route::get('/shop-user', [ShopUserController::class, 'index']);
     Route::post('/shop-user/shop/create',[ShopUserController::class,'shopCreate']);
     Route::post('/shop-user/shop/update',[ShopUserController::class,'shopUpdate']);

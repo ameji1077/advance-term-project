@@ -189,7 +189,7 @@
       管理画面
     </a>
   </h1>
-  <form action="/shop-user/logout" method="POST">
+  <form action="/logout" method="POST">
     @csrf
     <input type="submit" value="logout" class="logout-button">
   </form>
@@ -473,14 +473,16 @@
             <th>お名前</th>
             <th>詳細</th>
           </tr>
-          @foreach ($reservations as $reservation)
-            <tr>
-              <td>{{$reservation->start_at}}</td>
-              <td>{{$reservation->num_of_users}}</td>
-              <td>{{$reservation->user->name}}</td>
-              <td><a href="/shop-user/{{$reservation->id}}">詳細</a></td>
-            </tr>
-          @endforeach
+          @if ($reservations)
+            @foreach ($reservations as $reservation)
+              <tr>
+                <td>{{$reservation->start_at}}</td>
+                <td>{{$reservation->num_of_users}}</td>
+                <td>{{$reservation->user->name}}</td>
+                <td><a href="/shop-user/{{$reservation->id}}">詳細</a></td>
+              </tr>
+            @endforeach
+          @endif
         </table>
       </div>
     </div>

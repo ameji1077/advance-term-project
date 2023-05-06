@@ -10,6 +10,11 @@
     font-size: 32px;
   }
 
+  .header-title a{
+    text-decoration: none;
+    color: black;
+  }
+
   .logout-button{
     padding: 5px 10px;
     background: #fff;
@@ -206,8 +211,12 @@
 </style>
 
 <header class="header">
-  <h1 class="header-title">管理画面</h1>
-  <form action="/admin/logout" method="POST">
+  <h1 class="header-title">
+    <a href="/admin">
+      管理画面
+    </a>
+  </h1>
+  <form action="/logout" method="POST">
     @csrf
     <input type="submit" value="logout" class="logout-button">
   </form>
@@ -228,6 +237,7 @@
     </div>
     <form action="/admin/shop-user/create" method="POST" class="shop-user-create-form">
       @csrf
+      <input type="hidden" name="user_type" value="5">
       <table>
         @error('name')
           <tr >

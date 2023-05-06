@@ -252,6 +252,7 @@
     }
 
     .error-message{
+        margin-top: 5px;
         color: #ff0000;
     }
 
@@ -460,7 +461,6 @@
         </div>
         <div class="tab-content__item">
             <h3 class="like-title">お気に入り店舗</h3>
-            @if ($likes)
             <div class="shop-card-wrapper">
                 @foreach ($likes as $like)
                 <div class="shop-card">
@@ -486,9 +486,6 @@
                 </div>
                 @endforeach
             </div>
-            @else
-                <p class="no-like-shop">現在、お気に入りに登録している店舗がありません</p>
-            @endif
         </div>
         <div class="tab-content__item">
             <h4 class="review-title">レビューを投稿する</h4>
@@ -496,6 +493,7 @@
                 @csrf
                 <label class="label-review">予約店舗情報：
                     <select name="reservation_id" id="selectShopId" class="select-review">
+                        <option value="" selected disabled>予約店舗情報を選択</option>
                         @foreach ($reservations as $reservation)
                             @if (strtotime(date('Y-m-d H:i')) >= strtotime($reservation->start_at))
                                 @php
@@ -508,6 +506,9 @@
                         @endforeach
                     </select>
                 </label>
+                @error('reservation_id')
+                    <p class="error-message">{{$message}}</p>
+                @enderror
                 <input type="hidden" name="user_id" value="{{$user->id}}">
                 <input type="hidden" name="shop_id" id="hiddenShopId" value="">
                 <div class="rate-form">
@@ -544,10 +545,14 @@
             const index = arrayTabs.indexOf(this);
             document.getElementsByClassName('tab-content__item')[index].classList.add('show');
         };
-        // const selectElement = document.getElementById('selectShopId');
-        // const hiddenElement = document.getElementById('hiddenShopId');
-        // selectElement.addEventListener('change', () => {
-        //     hiddenElement.value = selectElement.value;
-        // });
+        const selectElement = document.getElementById('selectShopId');
+        const hiddenElement = document.getElementById('hiddenShopId');
+        selectElement.addEventListener('change', () => {
+            const selectedReservationId = selectElement.value;
+            const reservations = @json($reservations);
+            const selectedReservation = reservations.find(reservation => reservation.id === Number(selectedReservationId));
+            const selectedShopId = selectedReservation ? selectedReservation.shop.id : '';
+            hiddenElement.value = selectedShopId;
+        });
     </script>
 @endsection

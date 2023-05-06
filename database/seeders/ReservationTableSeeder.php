@@ -16,16 +16,23 @@ class ReservationTableSeeder extends Seeder
     {
         $param = [
             'user_id' => 1,
-            'shop_id' => 1,
+            'shop_id' => 2,
             'start_at' => '2023-4-1 17:00',
-            'num_of_users' => 4,
+            'num_of_users' => 1,
         ];
         Reservation::create($param);
         $param = [
             'user_id' => 1,
-            'shop_id' => 1,
-            'start_at' => '2023-6-1 17:00',
-            'num_of_users' => 1,
+            'shop_id' => 3,
+            'start_at' => '2023-4-5 17:00',
+            'num_of_users' => 2,
+        ];
+        Reservation::create($param);
+        $param = [
+            'user_id' => 1,
+            'shop_id' => 4,
+            'start_at' => '2024-6-1 17:00',
+            'num_of_users' => 3,
         ];
         Reservation::create($param);
     }

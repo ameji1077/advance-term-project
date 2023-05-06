@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminUserRequest;
 use App\Mail\SendEmail;
-use App\Models\ShopUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,15 +14,16 @@ class AdminUserController extends Controller
 {
     public function index()
     {
-        $shop_users = ShopUser::all();
+        $shop_users = User::where('user_type',5)->get();
         return view('admin.index',['shop_users' => $shop_users]);
     }
 
     public function shopUserCreate(AdminUserRequest $request)
     {
         $form = $request->all();
+        // dd($form);
         $form['password'] = Hash::make($form['password']);
-        ShopUser::create($form);
+        User::create($form);
         return redirect('/admin');
     }
 

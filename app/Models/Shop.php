@@ -12,9 +12,9 @@ class Shop extends Model
 
     protected $fillable = ['name','shop_user_id','area_id','genre_id','description','image_url'];
 
-    public function shop_user()
+    public function user()
     {
-        return $this->belongsTo(ShopUser::class);
+        return $this->belongsTo(User::class);
     }
 
     public function area()

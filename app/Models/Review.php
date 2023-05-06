@@ -11,6 +11,8 @@ class Review extends Model
 
     protected $guarded = ['id'];
 
+    protected $fillable = ['reservation_id','user_id','shop_id','stars','comment'];
+
     public function reservation()
     {
         return $this->belongsTo(Reservation::class);

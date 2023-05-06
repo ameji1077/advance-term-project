@@ -130,6 +130,7 @@
   @media screen and (max-width: 768px) {
     .header{
       display: block;
+      margin-top: 20px;
     }
 
     .search-form{
@@ -138,9 +139,19 @@
     }
 
     .shop-card{
-      margin: 10px auto;
+      margin: 20px auto;
       width: 90%;
-      height: 90%;
+      height: auto;
+    }
+
+    .shop-img{
+      width: auto;
+      height: auto;
+    }
+
+    .shop-img img{
+      width: 100%;
+      height: auto;
     }
 
     .shop-name,

@@ -26,8 +26,11 @@ class ShopUserController extends Controller
         };
         $areas = Area::all();
         $genres = Genre::all();
-        $reservations = Reservation::where('shop_id',$user->id)->get();
-        return view('shop-user.index',['user' => $user,'shop' => $shop,'areas' => $areas,'genres' => $genres,'reservations' => $reservations,'course' => $course]);
+        $reservations = null;
+        if ($shop) {
+            $reservations = Reservation::where('shop_id',$shop->id)->get();
+        };
+        return view('shop-user.index',['user' => $user,'shop' => $shop, 'reservations' => $reservations, 'areas' => $areas,'genres' => $genres,'course' => $course]);
     }
 
     public function shopCreate(ShopRequest $request)
