@@ -9,7 +9,6 @@ use App\Models\Course;
 use App\Models\Genre;
 use App\Models\Reservation;
 use App\Models\Shop;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -39,12 +38,10 @@ class ShopUserController extends Controller
         $path = '';
 
         if ($request->hasFile('image_url')) {
-            // 画像がアップロードされた場合
             $image = $request->file('image_url');
             $path = Storage::putFile('public/images',$image);
             $url = str_replace('public/', 'storage/', $path);
         } else {
-            // デフォルトの画像を使用する場合
             $url = 'storage/images/default.jpg';
         }
         $data = array_merge($form, ['image_url' => $url]);

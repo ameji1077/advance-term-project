@@ -27,33 +27,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        // Auth::viaRequest('user-type',function ($request) {
-        //     $user = User::where('email',$request->email)->first();
-        //     if (!$user) {
-        //         return null;
-        //     };
-        //     switch ($user->user_type) {
-        //         case 1:
-        //             if (Hash::check($request->password, $user->password)) {
-        //                 return $user;
-        //             };
-        //             break;
-        //         case 5:
-        //             if (Hash::check($request->password, $user->password)) {
-        //                 return $user;
-        //             };
-        //             break;
-        //         case 10:
-        //             if (Hash::check($request->password, $user->password)) {
-        //                 return $user;
-        //             };
-        //             break;
-        //         default:
-        //             return null;
-        //             break;
-        //     };
-        //     return null;
-        // });
     }
 }

@@ -34,11 +34,7 @@ class PaymentController extends Controller
 
     public function process(Request $request)
     {
-        // コース料理の選択状態を取得する
         $course_id = session()->get('course_id');
-        
-
-        // 決済処理が成功した場合は予約情報を更新する
         $reservation = Reservation::where('user_id', Auth::user()->id)
         ->where('course_id', $course_id)
             ->whereNull('paid_at')
@@ -73,7 +69,6 @@ class PaymentController extends Controller
             $reservation->delete();
             return view('error');
         }
-        // 決済処理が失敗した場合はエラーメッセージを表示する
         return view('error');
     }
 }

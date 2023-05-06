@@ -43,15 +43,6 @@ return [
         
     ],
 
-    // 'admin' => [
-    //     'driver' => 'session',
-    //     'provider' => 'admin_users',
-    // ],
-    // 'shop-user' => [
-    //     'driver' => 'session',
-    //     'provider' => 'shop_users',
-    // ],
-
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -76,20 +67,6 @@ return [
         ],
         
     ],
-
-    // 'admin_users' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\AdminUser::class,
-        // ],
-        // 'shop_users' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\ShopUser::class,
-        // ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
 
     /*
     |--------------------------------------------------------------------------

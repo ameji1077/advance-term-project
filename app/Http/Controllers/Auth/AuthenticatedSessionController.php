@@ -34,8 +34,7 @@ class AuthenticatedSessionController extends Controller
                 case 1:
                     $credentials = $request->only('email', 'password');
                     if (Auth::attempt($credentials)) {
-                        // 認証に成功した場合の処理
-                        return redirect('/');  //->intended('mypage')
+                        return redirect('/');
                     } else {
                         return redirect()->back()
                         ->withInput($request->only('email', 'remember'))
@@ -44,10 +43,8 @@ class AuthenticatedSessionController extends Controller
                 break;
 
                 case 5:
-                    // $request->session()->regenerateToken();
                     $credentials = $request->only('email', 'password');
-                    if (Auth::attempt($credentials)) {  //Auth::guard('shop-user')->
-                        // $request->session()->regenerate();
+                    if (Auth::attempt($credentials)) {
                         return redirect('/shop-user');
                     } else {
                         return redirect()->back()
@@ -57,10 +54,8 @@ class AuthenticatedSessionController extends Controller
                 break;
 
                 case 10:
-                    // $request->session()->regenerateToken();
                     $credentials = $request->only('email', 'password');
-                    if (Auth::attempt($credentials)) {   //guard('admin')->
-                        // $request->session()->regenerate();
+                    if (Auth::attempt($credentials)) {
                         return redirect('/admin');
                     } else {
                         return redirect()->back()

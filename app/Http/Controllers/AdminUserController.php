@@ -6,7 +6,6 @@ use App\Http\Requests\AdminUserRequest;
 use App\Mail\SendEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -21,7 +20,6 @@ class AdminUserController extends Controller
     public function shopUserCreate(AdminUserRequest $request)
     {
         $form = $request->all();
-        // dd($form);
         $form['password'] = Hash::make($form['password']);
         User::create($form);
         return redirect('/admin');
@@ -33,7 +31,7 @@ class AdminUserController extends Controller
         $title = $request->title;
         $text = $request->text;
         foreach($users as $user){
-        Mail::to($user)->send(new SendEmail($title,$text));
+            Mail::to($user)->send(new SendEmail($title,$text));
         };
         return back();
     }
