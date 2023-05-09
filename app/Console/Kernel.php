@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('reminder:email')
-        ->dailyAt('7:00');
+        ->dailyAt('07:00');
         $schedule->command('command:DeleteExpiredReservations')
         ->dailyAt('0:00');
     }

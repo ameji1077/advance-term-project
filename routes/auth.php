@@ -69,7 +69,7 @@ Route::group(['middleware' => ['auth','userType:shop-user']], function () {
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
-})->name('verification.notice'); //->middleware('auth')
+})->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();

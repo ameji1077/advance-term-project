@@ -44,9 +44,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function users()
+    public function shops()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Shop::class);
     }
 
     public function likes()
